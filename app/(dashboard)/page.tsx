@@ -8,8 +8,6 @@ import {
 // import { GainersLosers } from '@/components/gainersloserstable';
 
 // TODO
-// version control
-// AI chat integration
 // search coins
 
 export default async function ProductsPage() {
