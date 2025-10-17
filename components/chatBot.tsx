@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export default function ChatBot({ coin, contextData }: { coin: string, contextData: any }) {
+export default function ChatBot({ coin, currency, contextData }: { coin: string, currency: string, contextData: any }) {
     const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);

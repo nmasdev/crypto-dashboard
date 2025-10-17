@@ -139,7 +139,7 @@ export default function PriceChart({
       </ResponsiveContainer>
       <h3 className="font-medium text-2x3 mt-10 mb-6" hidden={info.description.en == ""}>Description</h3>
       <p className="pb-10" hidden={info.description.en == ""}>{info.description.en}</p>
-      <ChatBot coin={coin} contextData={data} />
+      <ChatBot coin={coin} currency={currency} contextData={data} />
     </div>
   );
 }

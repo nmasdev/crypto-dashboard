@@ -6,10 +6,10 @@ const openai = new OpenAI({
 });
 
 export async function POST(req: Request) {
-    const { messages, coin, context } = await req.json();
+    const { messages, coin, currency, context } = await req.json();
 
     const systemPrompt = `
-  You are a helpful crypto assistant. You have access to the following market data for the ${coin} coin:
+  You are a helpful crypto assistant. You have access to the following market data for the ${coin} coin in ${currency} currency:
   ${JSON.stringify(context, null, 2)}
   Use it to answer questions and summarize market information.
   Always cite values directly from the data.
@@ -30,14 +30,12 @@ export async function POST(req: Request) {
 
         if (err.status === 429) {
             return NextResponse.json({
-                reply:
-                    "⚠️ The AI assistant is currently at capacity (quota exceeded or rate limited). Please try again in a moment.",
+                reply: "⚠️ The AI assistant is currently at capacity (quota exceeded or rate limited). Please try again in a moment.",
             }, { status: 429 });
         }
 
         return NextResponse.json({
-            reply:
-                "❌ Sorry, something went wrong while contacting the AI service. Please try again later.",
+            reply: "❌ Sorry, something went wrong while contacting the AI service. Please try again later.",
             error: err.message || err.toString(),
         }, { status: 500 });
     }
