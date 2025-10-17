@@ -18,7 +18,7 @@ export default function Error({
     <main className="flex h-full flex-col items-center justify-center">
       <h2 className="text-center pb-10">Something went wrong!</h2>
       <Button
-        onClick={ () => reset() }
+        onClick={() => reset()}
       >
         Try again
       </Button>

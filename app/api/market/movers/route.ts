@@ -36,5 +36,5 @@ export async function GET(request: Request) {
       change: coin[index],
     }));
 
-  return NextResponse.json({gainers: formatted_gainers, losers: formatted_losers});
+  return NextResponse.json({ gainers: formatted_gainers, losers: formatted_losers });
 }

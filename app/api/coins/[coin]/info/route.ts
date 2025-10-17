@@ -7,5 +7,5 @@ export async function GET(request: Request, { params }: { params: Promise<{ coin
     const data = await res.json();
     return NextResponse.json(data);
   }
-  return NextResponse.json({ error: res.statusText}, { status: res.status });
+  return NextResponse.json({ error: res.statusText }, { status: res.status });
 }

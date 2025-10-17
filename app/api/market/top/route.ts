@@ -8,8 +8,8 @@ export async function GET(request: Request) {
   const ids = searchParams.get("ids") ?? "";
   return fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${vs_currency}&order=market_cap_desc&per_page=${count}&page=${page}&price_change_percentage=24h,7d,30d${ids ? "&ids=" + ids.toString() : ""}`, { next: { revalidate: 300 } })
     .then((res) => res.json())
-    .then((jsonData) => 
-       jsonData.sort((a: any, b: any) => b.current_price - a.current_price)
+    .then((jsonData) =>
+      jsonData.sort((a: any, b: any) => b.current_price - a.current_price)
         .slice(0, count)
         .map((coin: any) => ({
           id: coin.id,
@@ -29,5 +29,5 @@ export async function GET(request: Request) {
     .catch((err) => {
       console.error("Error fetching data:", err);
       return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
-  });
+    });
 }

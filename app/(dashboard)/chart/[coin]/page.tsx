@@ -1,3 +1,4 @@
+import ChatBot from "@/components/chatBot";
 import PriceChart from "@/components/pricechart";
 
 interface CoinPageProps {
@@ -6,9 +7,11 @@ interface CoinPageProps {
   }>;
 }
 
-export default async function CoinPage({ params }: CoinPageProps ) {
+export default async function CoinPage({ params }: CoinPageProps) {
   const { coin } = await params;
   return (
-    <PriceChart coin={coin} days={7}></PriceChart>
+    <div>
+      <PriceChart coin={coin} days={7}></PriceChart>
+    </div>
   );
 }

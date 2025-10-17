@@ -8,6 +8,7 @@ import {
 import { Button } from "./ui/button";
 import { currencyFormat } from "@/lib/utils";
 import { useCurrency } from "app/context/CurrencyContext";
+import ChatBot from "./chatBot";
 
 type PriceChartProps = {
   coin: string;
@@ -18,8 +19,8 @@ type CoinInfo = {
   id: string;
   name: string;
   symbol: string;
-  market_data: {current_price: any};
-  description: {en: string};
+  market_data: { current_price: any };
+  description: { en: string };
 };
 
 const RANGE_OPTIONS = [
@@ -34,29 +35,29 @@ export default function PriceChart({
   coin
 }: PriceChartProps) {
   const [error, setError] = useState<boolean>(false);
-  const [info, setInfo] = useState<CoinInfo>({id: "-", name: "-", symbol: "-", market_data: {current_price: {usd: 0}}, description: {en:""}});
+  const [info, setInfo] = useState<CoinInfo>({ id: "-", name: "-", symbol: "-", market_data: { current_price: { usd: 0 } }, description: { en: "" } });
   const [data, setData] = useState<{ time: number; price: number }[]>([]);
   const [days, setDays] = useState<number>(7);
   const { currency } = useCurrency();
 
   const fetchInfo = useCallback(async () => {
-      const res = await fetch(`/api/coins/${coin}/info`);
-      if (res.ok) {
-        const json = await res.json();
-        setInfo(json);
-      } else {
-        setError(true);
-      }
+    const res = await fetch(`/api/coins/${coin}/info`);
+    if (res.ok) {
+      const json = await res.json();
+      setInfo(json);
+    } else {
+      setError(true);
+    }
   }, [coin]);
 
   const fetchData = useCallback(async () => {
-      const res = await fetch(`/api/coins/${coin}?days=${days}&vs_currency=${currency}`);
-      if (res.ok) {
-        const json = await res.json();
-        setData(json);
-      } else {
-        setError(true);
-      }
+    const res = await fetch(`/api/coins/${coin}?days=${days}&vs_currency=${currency}`);
+    if (res.ok) {
+      const json = await res.json();
+      setData(json);
+    } else {
+      setError(true);
+    }
   }, [coin, currency, days]);
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export default function PriceChart({
     <div className="w-full md:h-[64rem] h-[32rem] p-4 bg-white dark:bg-gray-900 rounded-xl shadow">
       <h1 className="font-bold text-2xl">{info.name} <span className="font-normal font-mono">{info.symbol.toUpperCase()}</span></h1>
       <p>{info.market_data ? currencyFormat(currency, info.market_data.current_price[currency]) : ""}</p>
-        <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-2">
         <h2 hidden={info.id === "NULL"}
           className="text-lg font-semibold text-gray-800 dark:text-gray-100"
         >
@@ -102,7 +103,7 @@ export default function PriceChart({
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" 
+          <XAxis dataKey="time"
             interval="preserveStartEnd"
             tickFormatter={(tick) => {
               const d = new Date(tick);
@@ -114,18 +115,18 @@ export default function PriceChart({
           />
           <YAxis
             width={80}
-            domain={["auto", "auto"]} 
+            domain={["auto", "auto"]}
             tickFormatter={(val) => currencyFormat(currency, val)}
           />
           <Tooltip
-              labelFormatter={(value) => {
-                const d = new Date(value);
-                return days <= 1
-                  ? d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
-                  : d.toLocaleDateString([], { month: "short", day: "numeric" });
-              }} 
-              formatter={(value: number) => [currencyFormat(currency, value), "Price"]}
-              isAnimationActive={false}
+            labelFormatter={(value) => {
+              const d = new Date(value);
+              return days <= 1
+                ? d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+                : d.toLocaleDateString([], { month: "short", day: "numeric" });
+            }}
+            formatter={(value: number) => [currencyFormat(currency, value), "Price"]}
+            isAnimationActive={false}
           />
           <Line
             type="monotone"
@@ -138,6 +139,7 @@ export default function PriceChart({
       </ResponsiveContainer>
       <h3 className="font-medium text-2x3 mt-10 mb-6" hidden={info.description.en == ""}>Description</h3>
       <p className="pb-10" hidden={info.description.en == ""}>{info.description.en}</p>
+      <ChatBot coin={coin} contextData={data} />
     </div>
   );
 }
