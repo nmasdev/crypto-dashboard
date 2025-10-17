@@ -8,6 +8,7 @@ import {
 // import { GainersLosers } from '@/components/gainersloserstable';
 
 // TODO
+// deployment
 // search coins
 
 export default async function ProductsPage() {
