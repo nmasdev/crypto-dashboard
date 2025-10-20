@@ -8,7 +8,12 @@ import {
 // import { GainersLosers } from '@/components/gainersloserstable';
 
 // TODO
-// deployment
+// mobile formatting
+//  tables spill off-screen
+//  line charts overflow
+//  price data heading wraps too much
+//  ai chat box doesn't fit
+// coingecko attestation
 // search coins
 
 export default async function ProductsPage() {
